@@ -11,8 +11,10 @@ const ws = require('ws');
 const fs = require('fs');
 
 dotenv.config();
+mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGO_URL, (err) => {
   if (err) throw err;
+  console.log("mongodb connected")
 });
 const jwtSecret = process.env.JWT_SECRET;
 const bcryptSalt = bcrypt.genSaltSync(10);
@@ -112,7 +114,9 @@ app.post('/register', async (req,res) => {
   }
 });
 
-const server = app.listen(4040);
+const server = app.listen(4040,()=>{
+  console.log("server started at port 4040")
+});
 
 const wss = new ws.WebSocketServer({server});
 wss.on('connection', (connection, req) => {
